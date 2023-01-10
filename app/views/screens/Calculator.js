@@ -37,7 +37,7 @@ function Calculator() {
         return 'SUM'
     }
 
-    const AddToAlgo = (char) => {
+    const AppendAlgo = (char) => {
         if(algo === '0' && char === '0') { return }
 
         if(algo === '0') {
@@ -55,8 +55,6 @@ function Calculator() {
             return algo
         })
     }
-
-    
 
     const Clear = () => {
         if(clearAll) {
@@ -219,24 +217,24 @@ function Calculator() {
                 <FunctionButton value={'%'} shrinkFont={true} onPress={ToPercent} />
                 <OperatorButton operator={'DIV'} onPress={SetOperator} />
 
-                <NumericButton value={7} appendNumber={AddToAlgo} />
-                <NumericButton value={8} appendNumber={AddToAlgo} />
-                <NumericButton value={9} appendNumber={AddToAlgo} />
+                <NumericButton value={7} appendNumber={AppendAlgo} />
+                <NumericButton value={8} appendNumber={AppendAlgo} />
+                <NumericButton value={9} appendNumber={AppendAlgo} />
                 <OperatorButton operator={'MUL'} onPress={SetOperator} />
 
-                <NumericButton value={4} appendNumber={AddToAlgo} />
-                <NumericButton value={5} appendNumber={AddToAlgo} />
-                <NumericButton value={6} appendNumber={AddToAlgo} />
+                <NumericButton value={4} appendNumber={AppendAlgo} />
+                <NumericButton value={5} appendNumber={AppendAlgo} />
+                <NumericButton value={6} appendNumber={AppendAlgo} />
                 <OperatorButton operator={'SUB'} onPress={SetOperator} />
 
 
-                <NumericButton value={1} appendNumber={AddToAlgo} />
-                <NumericButton value={2} appendNumber={AddToAlgo} />
-                <NumericButton value={3} appendNumber={AddToAlgo} />
+                <NumericButton value={1} appendNumber={AppendAlgo} />
+                <NumericButton value={2} appendNumber={AppendAlgo} />
+                <NumericButton value={3} appendNumber={AppendAlgo} />
                 <OperatorButton operator={'ADD'} onPress={SetOperator} />
 
-                <NumericButton value={0} appendNumber={AddToAlgo} />
-                <NumericButton value={'.'} appendNumber={AddToAlgo} />
+                <NumericButton value={0} appendNumber={AppendAlgo} />
+                <NumericButton value={'.'} appendNumber={AppendAlgo} />
                 <OperatorButton operator={'SUM'} onPress={SetOperator} />
 
             </View>
@@ -251,7 +249,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: Colors.Background,
         width: '100%',
-        padding: 0,
+        padding: 5,
         paddingTop: STATUSBAR_HEIGHT
     },
     algoContainer: {
