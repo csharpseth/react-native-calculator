@@ -3,6 +3,9 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Colors from '../../config/Colors';
 
 import {NativeModules} from 'react-native';
+import NumericButton from '../components/NumericButton';
+import OperatorButton from '../components/OperatorButton';
+import FunctionButton from '../components/FunctionButton';
 const {StatusBarManager} = NativeModules;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
 
@@ -40,7 +43,7 @@ function Calculator() {
         if(algo === '0') {
             setAlgo(char)
         } else {
-            setAlgo(algo + char)
+            setAlgo(algo+char)
         }
 
         setAlgo((algo) => {
@@ -192,6 +195,11 @@ function Calculator() {
     }
 
     const SetOperator = (opr) => {
+        if(opr === 'SUM') {
+            Calculate()
+            return
+        }
+        
         if(sideASet == false) {
             setSideASet(true)
             setOperator(opr)
@@ -206,78 +214,30 @@ function Calculator() {
             </View>
             <View style={styles.buttonContainer}>
                 
-                <View style={styles.buttonRow}>
-                    <TouchableOpacity style={styles.numericButton} onPress={Clear}>
-                        <Text style={[styles.numericButtonText, styles.numericButtonTextShrink]}>{clearAll ? 'AC' : 'C'}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={ToggleSign}>
-                        <Text style={styles.numericButtonText}>&plusmn;</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={ToPercent}>
-                        <Text style={[styles.numericButtonText, styles.numericButtonTextShrink]}>%</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => SetOperator('DIV')}>
-                        <Text style={styles.numericButtonText}>&divide;</Text>
-                    </TouchableOpacity>
-                </View>
+                <FunctionButton value={clearAll ? 'AC' : 'C'} shrinkFont={true} onPress={Clear} />
+                <FunctionButton value={'±'} onPress={ToggleSign} />
+                <FunctionButton value={'%'} shrinkFont={true} onPress={ToPercent} />
+                <OperatorButton operator={'DIV'} onPress={SetOperator} />
 
-                <View style={styles.buttonRow}>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => AddToAlgo('7')}>
-                        <Text style={styles.numericButtonText}>7</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => AddToAlgo('8')}>
-                        <Text style={styles.numericButtonText}>8</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => AddToAlgo('9')}>
-                        <Text style={styles.numericButtonText}>9</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => SetOperator('MUL')}>
-                        <Text style={styles.numericButtonText}>&times;</Text>
-                    </TouchableOpacity>
-                </View>
+                <NumericButton value={7} appendNumber={AddToAlgo} />
+                <NumericButton value={8} appendNumber={AddToAlgo} />
+                <NumericButton value={9} appendNumber={AddToAlgo} />
+                <OperatorButton operator={'MUL'} onPress={SetOperator} />
 
-                <View style={styles.buttonRow}>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => AddToAlgo('4')}>
-                        <Text style={styles.numericButtonText}>4</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => AddToAlgo('5')}>
-                        <Text style={styles.numericButtonText}>5</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => AddToAlgo('6')}>
-                        <Text style={styles.numericButtonText}>6</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => SetOperator('SUB')}>
-                        <Text style={styles.numericButtonText}>-</Text>
-                    </TouchableOpacity>
-                </View>
+                <NumericButton value={4} appendNumber={AddToAlgo} />
+                <NumericButton value={5} appendNumber={AddToAlgo} />
+                <NumericButton value={6} appendNumber={AddToAlgo} />
+                <OperatorButton operator={'SUB'} onPress={SetOperator} />
 
 
-                <View style={styles.buttonRow}>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => AddToAlgo('1')}>
-                        <Text style={styles.numericButtonText}>1</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => AddToAlgo('2')}>
-                        <Text style={styles.numericButtonText}>2</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => AddToAlgo('3')}>
-                        <Text style={styles.numericButtonText}>3</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => SetOperator('ADD')}>
-                        <Text style={styles.numericButtonText}>+</Text>
-                    </TouchableOpacity>
-                </View>
+                <NumericButton value={1} appendNumber={AddToAlgo} />
+                <NumericButton value={2} appendNumber={AddToAlgo} />
+                <NumericButton value={3} appendNumber={AddToAlgo} />
+                <OperatorButton operator={'ADD'} onPress={SetOperator} />
 
-                <View style={styles.buttonRow}>
-                    <TouchableOpacity style={[styles.numericButton, styles.zeroButton]} onPress={() => AddToAlgo('0')}>
-                        <Text style={styles.numericButtonText}>0</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={() => AddToAlgo('.')}>
-                        <Text style={styles.numericButtonText}>.</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.numericButton} onPress={Calculate}>
-                        <Text style={styles.numericButtonText}>=</Text>
-                    </TouchableOpacity>
-                </View>
+                <NumericButton value={0} appendNumber={AddToAlgo} />
+                <NumericButton value={'.'} appendNumber={AddToAlgo} />
+                <OperatorButton operator={'SUM'} onPress={SetOperator} />
 
             </View>
         </View>
@@ -291,16 +251,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: Colors.Background,
         width: '100%',
-        padding: 10,
+        padding: 0,
         paddingTop: STATUSBAR_HEIGHT
     },
     algoContainer: {
-        width: '100%',
+        width: '95%',
+        minHeight: 170,
         backgroundColor: Colors.DarkField,
         borderRadius: 10,
         justifyContent: 'flex-end',
-        flexGrow: 1,
-        marginBottom: 10
+        flexShrink: 1,
+        margin: 10,
+        paddingHorizontal: 10,
+        overflow: 'hidden'
     },
     algoText: {
         color: Colors.White,
@@ -308,35 +271,13 @@ const styles = StyleSheet.create({
         textAlign: 'right'
     },
     buttonContainer: {
-        
-    },
-    numericButton: {
-        width: 80,
-        height: 80,
-        margin: 5,
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Colors.DarkField,
-        borderRadius: 100
-    },
-    zeroButton: {
-        width: 170,
-        alignItems: 'flex-start',
-        paddingLeft: 27,
-    },
-    numericButtonText: {
-        color: Colors.White,
-        textAlign: 'center',
-        textAlignVertical: 'center',
-
-        fontSize: 50
-    },
-    numericButtonTextShrink: {
-        fontSize: 40
-    },
-    buttonRow: {
-        flexDirection: 'row'
-    },
+        width: '100%'
+    }
 })
 
 export default Calculator;
